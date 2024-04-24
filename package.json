@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "@escook/request-miniprogram": "^0.2.1",
+    "vue": "^3.4.24"
+  },
+  "name": "uni-app-1",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "hao <hao@qq.com>",
+  "license": "MIT"
+}
