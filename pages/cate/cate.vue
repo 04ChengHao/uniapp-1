@@ -1,5 +1,7 @@
 <template>
 	<view>
+		<!-- 使用自定义的搜索组件 -->
+		<my-search @click="gotoSearch"></my-search>
 		<view class="scroll-view-container">
 			<!-- 左侧的滚动视图区域 -->
 			<scroll-view class="left-scroll-view" scroll-y :style="{height: wh + 'px'}">
@@ -16,7 +18,8 @@
 					<!-- 动态渲染三级分类的列表数据 -->
 					<view class="cate-lv3-list">
 						<!-- 三级分类 Item 项 -->
-						<view class="cate-lv3-item" v-for="(item3, i3) in item2.children" :key="i3"  @click="gotoGoodsList(item3)">
+						<view class="cate-lv3-item" v-for="(item3, i3) in item2.children" :key="i3"
+							@click="gotoGoodsList(item3)">
 							<!-- 图片 -->
 							<image :src="item3.cat_icon"></image>
 							<!-- 文本 -->
@@ -48,8 +51,8 @@
 		created() {
 			// 获取当前系统的信息
 			const sysInfo = uni.getSystemInfoSync()
-			// 为 wh 窗口可用高度动态赋值
-			this.wh = sysInfo.windowHeight
+			// 可用高度 = 屏幕高度 - navigationBar高度 - tabBar高度 - 自定义的search组件高度
+			this.wh = sysInfo.windowHeight - 50
 			// 调用获取分类列表数据的方法
 			this.getCateList()
 
@@ -77,9 +80,15 @@
 			},
 			// 点击三级分类项跳转到商品列表页面
 			gotoGoodsList(item3) {
-			  uni.navigateTo({
-			    url: '/subpkg/goods_list/goods_list?cid=' + item3.cat_id
-			  })
+				uni.navigateTo({
+					url: '/subpkg/goods_list/goods_list?cid=' + item3.cat_id
+				})
+			},
+			// 跳转到分包中的搜索页面
+			gotoSearch() {
+				uni.navigateTo({
+					url: '/subpkg/search/search'
+				})
 			}
 		}
 	}

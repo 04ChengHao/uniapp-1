@@ -1,4 +1,11 @@
 {
+	"easycom": {
+		"autoscan": true,
+		"custom": {
+			// uni-ui 规则如下配置
+			"^uni-(.*)": "@dcloudio/uni-ui/lib/uni-$1/uni-$1.vue"
+		}
+	},
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
 			"path": "pages/home/home",
@@ -29,26 +36,31 @@
 			}
 		}
 	],
-	"subPackages": [
-		{
-			"root": "subpkg",
-			"pages": [{
-				"path" : "goods_detail/goods_detail",
-				"style" : 
-				{
-					"enablePullDownRefresh" : false
+	"subPackages": [{
+		"root": "subpkg",
+		"pages": [{
+				"path": "goods_detail/goods_detail",
+				"style": {
+					"enablePullDownRefresh": false
 				}
 			},
 			{
-				"path" : "goods_list/goods_list",
+				"path": "goods_list/goods_list",
+				"style": {
+					"navigationBarTitleText": "",
+					"enablePullDownRefresh": false
+				}
+			},
+			{
+				"path" : "search/search",
 				"style" : 
 				{
 					"navigationBarTitleText" : "",
 					"enablePullDownRefresh" : false
 				}
-			}]
-		}
-	],
+			}
+		]
+	}],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "商城优选",

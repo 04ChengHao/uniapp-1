@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@dcloudio/uni-ui": "^1.5.5",
     "@escook/request-miniprogram": "^0.2.1",
     "vue": "^3.4.24"
   },
@@ -7,5 +8,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "author": "hao <hao@qq.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "sass": "^1.75.0",
+    "sass-loader": "10.1.1"
+  }
 }
