@@ -88,7 +88,6 @@
 					})
 				})
 				this.floorList = res.message
-				console.log(this.floorList[0].product_list);
 			},
 			// nav-item 项被点击时候的事件处理函数
 			navClickHandler(item) {
