@@ -21,7 +21,8 @@
 				</view>
 			</view>
 			<!-- 运费 -->
-			<view class="yf">快递：免运费</view>
+			<!-- <view class="yf">快递：免运费</view> -->
+			<view class="yf">快递：免运费-- {{cart.length}}</view>
 		</view>
 		<!-- 商品详情信息 -->
 		<rich-text :nodes="goods_info.goods_introduce"></rich-text>
@@ -39,6 +40,14 @@
 </template>
 
 <script>
+	// 从 vuex 中按需导出 mapState 辅助方法
+	import {
+		useStore
+	} from 'vuex'
+	import {
+		computed
+	} from 'vue';
+
 	export default {
 		data() {
 			return {
@@ -46,16 +55,17 @@
 				goods_info: {},
 				// 左侧按钮组的配置对象
 				options: [{
-					icon: 'shop',
-					text: '店铺',
-					infoBackgroundColor: '#007aff',
-					infoColor: "red"
-				}, 
-				{
-					icon: 'cart',
-					text: '购物车',
-					info: 2
-				}],
+						icon: 'shop',
+						text: '店铺',
+						infoBackgroundColor: '#007aff',
+						infoColor: "red"
+					},
+					{
+						icon: 'cart',
+						text: '购物车',
+						info: 2
+					}
+				],
 				// 右侧按钮组的配置对象
 				buttonGroup: [{
 						text: '加入购物车',
@@ -70,11 +80,33 @@
 				]
 			}
 		},
+		setup() {
+			const store = useStore();
+			const addToCart = (goods) => {
+				store.commit('cart/addToCart', {
+					goods
+				})
+			}
+			const total = computed(() => store.getters['cart/total']);
+			const cart = computed(() => store.state.cart.cart);
+
+			return {
+				total,
+				store,
+				cart,
+				addToCart
+			};
+		},
 		onLoad(options) {
 			// 获取商品 Id
 			const goods_id = options.goods_id
 			// 调用请求商品详情数据的方法
 			this.getGoodsDetail(goods_id)
+			
+			const findResult = this.options.find((x) => x.text === '购物车')
+			if (findResult) {
+				findResult.info = this.total
+			}
 		},
 		methods: {
 			// 定义请求商品详情数据的方法
@@ -111,8 +143,43 @@
 						url: '/pages/cart/cart'
 					})
 				}
+			},
+			// 右侧按钮的点击事件处理函数
+			buttonClick(e) {
+				// 1. 判断是否点击了 加入购物车 按钮
+				if (e.content.text === '加入购物车') {
+
+					// 2. 组织一个商品的信息对象
+					const goods = {
+						goods_id: this.goods_info.goods_id, // 商品的Id
+						goods_name: this.goods_info.goods_name, // 商品的名称
+						goods_price: this.goods_info.goods_price, // 商品的价格
+						goods_count: 1, // 商品的数量
+						goods_small_logo: this.goods_info.goods_small_logo, // 商品的图片
+						goods_state: true // 商品的勾选状态
+					}
+					// 3. 通过 this 调用映射过来的 addToCart 方法，把商品信息对象存储到购物车中
+					this.addToCart(goods)
+				}
 			}
-		}
+		},
+		watch: {
+			// 1. 监听 total 值的变化，通过第一个形参得到变化后的新值
+			total: {
+				// handler 属性用来定义侦听器的 function 处理函数
+				handler(newVal) {
+					// 2. 通过数组的 find() 方法，找到购物车按钮的配置对象
+					const findResult = this.options.find((x) => x.text === '购物车')
+
+					if (findResult) {
+						// 3. 动态为购物车按钮的 info 属性赋值
+						findResult.info = newVal
+					}
+				}
+			},
+			// immediate 属性用来声明此侦听器，是否在页面初次加载完毕后立即调用
+			// immediate: true
+		},
 	}
 </script>
 

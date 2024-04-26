@@ -34,10 +34,10 @@ uni.$showMsg = function (title = '数据加载失败！', duration = 1500) {
 // // })
 // // app.$mount()
 
-import { createSSRApp } from 'vue'
-export function createApp() {
-  const app = createSSRApp(App)
-  return {
-    app
-  }
-}
+import { createApp } from 'vue'
+import store from './store/store.js'
+
+const app = createApp(App)
+
+app.mount('#app')
+app.use(store)

@@ -2,7 +2,8 @@
   "dependencies": {
     "@dcloudio/uni-ui": "^1.5.5",
     "@escook/request-miniprogram": "^0.2.1",
-    "vue": "^3.4.24"
+    "vue": "^3.4.24",
+    "vuex": "^4.0.2"
   },
   "name": "uni-app-1",
   "version": "1.0.0",
