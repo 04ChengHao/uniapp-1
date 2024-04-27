@@ -65,9 +65,9 @@ export default {
 		// 更新所有商品的勾选状态
 		updateAllGoodsState(state, newState) {
 		  // 循环更新购物车中每件商品的勾选状态
-		  state.cart.forEach(x => x.goods_state = newState)
+		  state.cart.forEach(x => x.goods.goods_state = newState)
 		  // 持久化存储到本地
-		  this.commit('m_cart/saveToStorage')
+		  this.commit('cart/saveToStorage')
 		}
 	},
 
